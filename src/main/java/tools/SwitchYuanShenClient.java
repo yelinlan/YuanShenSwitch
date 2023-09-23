@@ -1,9 +1,13 @@
 package tools;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.setting.Setting;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Scanner;
 
 /**
@@ -112,7 +116,9 @@ public class SwitchYuanShenClient {
 		}
 		//插件有没有
 		if (!FileUtil.exist(BACK_UP_BILIBILI_PLUGIN_INIT)){
-			FileUtil.copy("plugins/PCGameSDK.dll", BACK_UP_BILIBILI_PLUGIN_INIT, false);
+			InputStream in = SwitchYuanShenClient.class.getClassLoader().
+					getResourceAsStream("plugins/PCGameSDK.dll");
+			FileUtil.writeFromStream(in,BACK_UP_BILIBILI_PLUGIN_INIT);
 			System.out.println("没有找到【B服】PCGameSDK.dll插件");
 			System.out.println("复制内部插件【可能过时！】。");
 		}
